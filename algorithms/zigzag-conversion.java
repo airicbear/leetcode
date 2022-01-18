@@ -17,33 +17,37 @@ class Solution {
         // Map letters to row number for each cycle
         for (int i = 0; i < numCycles; i++) {
             
+            int rowTop = cycleSize*i;
+            
             // Map letter to first row
-            map.get(0).append(s.charAt(cycleSize*i));
+            map.get(0).append(s.charAt(rowTop));
             
             // Map letters with gaps to each row
             for (int j = 1; j < numRows - 1; j++) {
-                int rowLo = j + cycleSize*i;
-                int rowHi = j + cycleSize*i + 2*(numRows-2) - 2*(j-1);
+                int rowLo = j + rowTop;
+                int rowHi = j + rowTop + 2*(numRows-2) - 2*(j-1);
                 
                 map.get(j).append(s.charAt(rowLo));
                 map.get(j).append(s.charAt(rowHi));
             }
             
             // Map letter to last row
-            int rowBottom = (numRows - 1) + cycleSize*i;
+            int rowBottom = (numRows - 1) + rowTop;
             map.get(numRows - 1).append(s.charAt(rowBottom));
         }
         
         // Map any remaining letters to a row number
         if (numTrailing > 0) {
             
+            int rowTop = cycleSize*numCycles;
+            
             // Map letter to first row
-            map.get(0).append(s.charAt(cycleSize*numCycles));
+            map.get(0).append(s.charAt(rowTop));
             
             // Map letters with gaps to each row
             for (int j = 1; j < numRows - 1; j++) {
-                int rowLo = j + cycleSize*numCycles;
-                int rowHi = j + cycleSize*numCycles + 2*(numRows-2) - 2*(j-1);
+                int rowLo = j + rowTop;
+                int rowHi = j + rowTop + 2*(numRows-2) - 2*(j-1);
 
                 if (rowLo < s.length()) {
                     map.get(j).append(s.charAt(rowLo));
@@ -54,8 +58,8 @@ class Solution {
             }
             
             // Map letter to last row if the letter exists
-            if (((numRows - 1) + cycleSize*numCycles) < s.length()) {
-                int rowBottom = (numRows - 1) + cycleSize*numCycles;
+            int rowBottom = (numRows - 1) + rowTop;
+            if (rowBottom < s.length()) {
                 map.get(numRows - 1).append(s.charAt(rowBottom));
             }
         }
